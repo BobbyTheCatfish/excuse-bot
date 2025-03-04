@@ -12,8 +12,8 @@ Client.on("messageCreate", (msg) => {
   const args = msg.content.split(" ");
   if (args[0] !== "!later") return;
   const response = `${data.opening.getRandom()} ${data.person.getRandom()} ${data.event.getRandom()}`
-        .replaceAll("<@authorname>", msg.author.displayName)
-        .replaceAll("<@channel>", msg.channel.toString());
+    .replaceAll("<@authorname>", msg.author.displayName)
+    .replaceAll("<@channel>", msg.channel.toString());
   msg.reply(response);
 })
 .on("ready", () => {
