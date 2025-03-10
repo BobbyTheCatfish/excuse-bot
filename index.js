@@ -17,7 +17,7 @@ function later(input) {
 }
 
 Client.on("interactionCreate", (int) => {
-  if (int.isChatInputCommand() && int.commandId === cmdSF.commands.slashExcuse) later(int);
+  if (int.isChatInputCommand() && int.commandId === cmdSF.commands.slashLater) later(int);
 })
 .on("messageCreate", (msg) => {
   const args = msg.content.split(" ");

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.8.2",
     "discord.js": "^14.18.0",
     "no-repeat": "npm:@bobbythecatfish/no-repeat@^1.1.1"
   },
