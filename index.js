@@ -8,12 +8,48 @@ const Client = new Discord.Client({ intents: ["MessageContent", "Guilds", "Guild
 
 Client.login(config.token);
 
+/**
+ * @template T
+ * @param {T[]} elements
+ * @returns {T}
+ */
+function rand(elements) {
+  return elements[Math.floor(Math.random() * elements.length)];
+}
+
 /** @param {Discord.Message | Discord.ChatInputCommandInteraction} input */
 function later(input) {
-  const response = `${data.opening.getRandom()} ${data.person.getRandom()} ${data.event.getRandom()}`
-    .replaceAll("<@authorname>", "user" in input ? input.user.displayName : input.author.displayName)
-    .replaceAll("<@channel>", input.channel?.toString() ?? "Here");
-  input.reply(response);
+  const set = Math.random() < 0.5 ? data.fun : data.work;
+  const channel = input.guild ?
+    rand(input.guild.channels.cache.filter(c => c.permissionsFor(input.guildId ?? "")?.has("ViewChannel") && c.isSendable()).map(c => c.toString()))
+    : "Here";
+  const name = rand(input.guild?.members.cache.map(m => m.toString()) ?? [("user" in input ? input.user : input.author).toString()]);
+  const intro = set.intros.getRandom();
+  let person = set.people.getRandom();
+  let excuse = set.excuses.getRandom();
+  const pronoun = person[0];
+  let them = "";
+  let their = "";
+  switch (pronoun) {
+    case "%": them = "him"; their = "his";
+      break;
+    case "^": them = "her"; their = "her";
+      break;
+    case "!": them = "it"; their = "its";
+      break;
+    default: them = "them"; their = "their";
+      break;
+  }
+  person = person.substring(1);
+  if (/[.!?]$/.test(intro) && excuse[0] === "#") person = person[0].toUpperCase() + person.substring(1);
+  excuse = excuse
+    .replace(/%/g, them)
+    .replace(/\$/g, their)
+    .replace(/#/g, person)
+    .replace(/<@channel>/, channel)
+    .replace(/<@name>/, name);
+
+  input.reply(excuse);
 }
 
 Client.on("interactionCreate", (int) => {
