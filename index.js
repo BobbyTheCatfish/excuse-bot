@@ -42,14 +42,14 @@ function later(input) {
   }
   person = person.substring(1);
   if (/[.!?]$/.test(intro) && excuse[0] === "#") person = person[0].toUpperCase() + person.substring(1);
-  excuse = excuse
+  excuse = intro + " " + excuse
     .replace(/%/g, them)
     .replace(/\$/g, their)
     .replace(/#/g, person)
     .replace(/<@channel>/, channel)
     .replace(/<@name>/, name);
 
-  input.reply(excuse);
+  input.reply({ content: excuse, allowedMentions: { parse: [] } });
 }
 
 Client.on("interactionCreate", (int) => {
