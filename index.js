@@ -4,7 +4,7 @@ const Discord = require("discord.js");
 const config = require("./config.json");
 const data = require("./data");
 const cmdSF = require("./registry/snowflakes-commands.json");
-const Client = new Discord.Client({ intents: ["MessageContent", "Guilds", "GuildMessages"] });
+const Client = new Discord.Client({ intents: ["MessageContent", "Guilds", "GuildMessages", "GuildMembers"] });
 
 Client.login(config.token);
 
